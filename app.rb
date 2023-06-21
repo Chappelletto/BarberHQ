@@ -13,7 +13,32 @@ end
 class Barber < ActiveRecord::Base
 end
 
+before do
+	@barbers = Barber.order "created_at DESC"
+end
+
 get '/' do
-	@barbers = Barber.all
 	erb :index		
+end
+
+
+get '/visit' do
+	erb :visit
+end
+
+post '/visit' do
+
+	@username = params[:username]
+	@phone = params[:phone]
+	@datetime = params[:datetime]
+	@barber = params[:barber]
+	@color = params[:color]
+
+	if @username == ''
+		@error = 'Введите имя'
+		return erb :visit
+	end
+
+	erb "<h2> Thanks. We wait you! </h2>"
+
 end
